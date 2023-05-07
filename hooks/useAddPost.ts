@@ -29,6 +29,22 @@ const addPost = async (input: CreatePostInput): Promise<Post> => {
   return response.data.data.createPost;
 };
 
+const addPostToLocalStorage = (newPost: Post) => {
+  const storedPosts = localStorage.getItem('posts');
+
+  if (storedPosts) {
+    const posts = JSON.parse(storedPosts) as Post[];
+    posts.push(newPost);
+    localStorage.setItem('posts', JSON.stringify(posts));
+  } else {
+    localStorage.setItem('posts', JSON.stringify([newPost]));
+  }
+};
+
 export const useAddPost = () => {
-  return useMutation(addPost);
+  return useMutation<Post, Error, CreatePostInput, null>(addPost, {
+    onSuccess: (newPost) => {
+      addPostToLocalStorage(newPost);
+    },
+  });
 };

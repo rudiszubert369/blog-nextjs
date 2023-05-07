@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { useState, useEffect } from 'react';
 
 export interface User {
   id: string;
@@ -37,6 +38,24 @@ export const fetchPosts = async (): Promise<Post[]> => {
   return data.posts.data;
 };
 
-export const useFetchPosts = () => {
-  return useQuery<Post[], Error>('posts', fetchPosts);
+export const useFetchPosts = (refreshKey: number) => {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const storedPosts = localStorage.getItem('posts');
+
+      if (storedPosts && JSON.parse(storedPosts).length > 0) {
+        setPosts(JSON.parse(storedPosts));
+      } else {
+        const fetchedPosts = await fetchPosts();
+        setPosts(fetchedPosts);
+        localStorage.setItem('posts', JSON.stringify(fetchedPosts));
+      }
+    };
+
+    fetchData();
+  }, [refreshKey]);
+
+  return { posts };
 };

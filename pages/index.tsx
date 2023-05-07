@@ -1,26 +1,12 @@
 import * as React from 'react';
-import { GetStaticProps } from 'next';
-import { fetchPosts, Post } from '../hooks/useFetchPosts';
+import { useFetchPosts } from '../hooks/useFetchPosts';
 import BlogListPage from '../components/BlogList';
 
-interface PostsProps {
-  posts: Post[];
-}
+const Home = () => {
+  const [refreshKey, setRefreshKey] = React.useState(0);
+  const { posts } = useFetchPosts(refreshKey);
 
-const Home = ({ posts }: PostsProps) => {
-  console.log(posts)
-  return <BlogListPage posts={posts} />;
+  return <BlogListPage posts={posts} onUpdate={setRefreshKey} />;
 };
 
 export default Home;
-
-export const getStaticProps: GetStaticProps<PostsProps> = async () => {
-  const posts = await fetchPosts();
-
-  return {
-    props: {
-      posts,
-    },
-    revalidate: 60,
-  };
-};

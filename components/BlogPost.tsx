@@ -12,9 +12,10 @@ import { useEditPost } from '@/hooks/useEditPost';
 
 interface BlogPostProps {
   post: Post;
+  onUpdate: Function;
 }
 
-const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
+const BlogPost: React.FC<BlogPostProps> = ({ post, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(post.title);
   const [editedContent, setEditedContent] = useState(post.body);
@@ -27,7 +28,14 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
 
   const handleSave = () => {
     setIsEditing(false);
-    editPostMutation.mutateAsync({ id: post.id, title: editedTitle, body: editedContent });
+    editPostMutation.mutateAsync(
+      { id: post.id, title: editedTitle, body: editedContent },
+      {
+        onSuccess: () => {
+          onUpdate((refresh: boolean) => !refresh);
+        },
+      }
+    );
   };
 
   const handleClose = () => {
@@ -36,8 +44,12 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
   };
 
   const handleDelete = () => {
-    deletePostMutation.mutate(post.id);
-  }
+    deletePostMutation.mutateAsync(post.id, {
+      onSuccess: () => {
+        onUpdate((refresh: boolean) => !refresh);
+      },
+    });
+  };
 
   return (
     <VStack

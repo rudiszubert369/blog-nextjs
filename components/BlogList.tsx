@@ -6,18 +6,23 @@ import { useBreakpointValue } from '@chakra-ui/react';
 
 interface BlogListPageProps {
   posts: Post[];
+  onUpdate: Function;
 }
 
-const BlogListPage: React.FC<BlogListPageProps> = ({ posts }) => {
+const BlogListPage: React.FC<BlogListPageProps> = ({ posts, onUpdate }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
+  const uniquePosts = posts.filter((post, index, self) => {
+    return self.findIndex(p => p.id === post.id) === index;
+  });
+  
   return (
     <Box p={4}>
       <Heading mb={6}>Blog</Heading>
       <Flex direction={isDesktop ? 'row' : 'column'} wrap="wrap" ml={-2} mr={-2}>
-        {posts.map((post) => (
+        {uniquePosts.map((post) => (
           <Box key={post.id} flex="1" minW={isDesktop ? '50%' : '100%'} pb={6} px={2}>
-            <BlogPost post={post} />
+            <BlogPost post={post} onUpdate={onUpdate} />
           </Box>
         ))}
       </Flex>

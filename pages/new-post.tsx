@@ -12,8 +12,7 @@ import {
 import { useRouter } from 'next/router';
 import { useAddPost } from '@/hooks/useAddPost';
 
-
-const CreatePostPage: React.FC = () => {
+const CreatePostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const router = useRouter();
