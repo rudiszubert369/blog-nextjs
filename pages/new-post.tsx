@@ -10,20 +10,21 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useAddPost } from '@/hooks/useAddPost';
+
 
 const CreatePostPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const router = useRouter();
+  const addPostMutation = useAddPost();
 
   const handleSave = () => {
-    console.log('Title:', title);
-    console.log('Content:', content);
+    addPostMutation.mutate({ title, body: content });
     router.push('/');
   };
 
   const handleBack = () => {
-    // Navigate back to the blog list or another desired page
     router.push('/');
   };
 

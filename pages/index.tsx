@@ -1,29 +1,15 @@
-// import * as React from 'react';
-// import BlogListPage from '../components/BlogList';
-
-// function Home() {
-//   return <BlogListPage />;
-
-// }
-
-// export default Home;
 import * as React from 'react';
 import { GetStaticProps } from 'next';
 import { fetchPosts, Post } from '../hooks/useFetchPosts';
-import { useAddPost } from '@/hooks/useAddPost';
-import { useDeletePost } from '@/hooks/useDeletePost';
-import { useEditPost } from '@/hooks/useEditPost';
+import BlogListPage from '../components/BlogList';
 
 interface PostsProps {
   posts: Post[];
 }
 
 const Home = ({ posts }: PostsProps) => {
-  return (
-    <div>
-      
-    </div>
-  );
+  console.log(posts)
+  return <BlogListPage posts={posts} />;
 };
 
 export default Home;
