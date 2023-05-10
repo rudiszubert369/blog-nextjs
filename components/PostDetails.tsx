@@ -1,6 +1,5 @@
-import { Post } from "@/hooks/useFetchPosts";
+import { Post } from '@/interfaces';
 import {
-  Box,
   Heading,
   Text,
   VStack,

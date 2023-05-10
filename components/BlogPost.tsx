@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Post } from '@/hooks/useFetchPosts';
+import { Post } from '@/interfaces';
 import {
   VStack,
+  HStack,
   Button,
   Heading,
   Text,
+  ButtonGroup
 } from '@chakra-ui/react';
 import EditBlogPostModal from './EditBlogPostModal';
 import { useDeletePost } from '@/hooks/useDeletePost';
 import { useEditPost } from '@/hooks/useEditPost';
+import Link from 'next/link';
 
 interface BlogPostProps {
   post: Post;
@@ -69,32 +72,30 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, onUpdate }) => {
         },
       }}
     >
-      <Button
-        className="post-buttons"
-        position="absolute"
-        top={2}
-        right={2}
-        size="sm"
-        opacity={0}
-        _hover={{ opacity: 1 }}
-        onClick={handleEdit}
-      >
-        Edit
-      </Button>
-      <Button
-        className="post-buttons"
-        position="absolute"
-        top={2}
-        right={28}
-        size="sm"
-        opacity={0}
-        _hover={{ opacity: 1 }}
-        onClick={handleDelete}
-      >
-        Delete
-      </Button>
-      <Heading size="md">{post.title}</Heading>
-      <Text>{post.body}</Text>
+      <Link href={`/posts/${post.id}`}>
+        <Heading size="md">{post.title}</Heading>
+        <Text>{post.body}</Text>
+      </Link>
+      <HStack w="100%" justifyContent="flex-end">
+        <ButtonGroup size="sm" spacing={4}>
+          <Button
+            className="post-buttons"
+            opacity={0}
+            _hover={{ opacity: 1 }}
+            onClick={handleEdit}
+          >
+            Edit
+          </Button>
+          <Button
+            className="post-buttons"
+            opacity={0}
+            _hover={{ opacity: 1, backgroundColor: 'red.600' }}
+            onClick={handleDelete}
+          >
+            Delete
+          </Button>
+        </ButtonGroup>
+      </HStack>
       <EditBlogPostModal
         isOpen={isEditing}
         onClose={handleClose}

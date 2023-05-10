@@ -1,5 +1,5 @@
 import React from 'react';
-import { Post } from '../hooks/useFetchPosts';
+import { Post } from '@/interfaces';
 import { Box, Heading, Flex } from '@chakra-ui/react';
 import BlogPost from './BlogPost';
 import { useBreakpointValue } from '@chakra-ui/react';
@@ -18,7 +18,6 @@ const BlogListPage: React.FC<BlogListPageProps> = ({ posts, onUpdate }) => {
   
   return (
     <Box p={4}>
-      <Heading mb={6}>Blog</Heading>
       <Flex direction={isDesktop ? 'row' : 'column'} wrap="wrap" ml={-2} mr={-2}>
         {uniquePosts.map((post) => (
           <Box key={post.id} flex="1" minW={isDesktop ? '50%' : '100%'} pb={6} px={2}>

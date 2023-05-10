@@ -1,20 +1,9 @@
-import { useQuery } from 'react-query';
 import { useState, useEffect } from 'react';
-
-export interface User {
-  id: string;
-  name: string;
-}
-
-export interface Post {
-  id: string;
-  title: string;
-  body: string;
-  user: User;
-}
+import { Post } from '@/interfaces';
+import { API_BASE_URL } from '@/constants';
 
 export const fetchPosts = async (): Promise<Post[]> => {
-  const response = await fetch("https://graphqlzero.almansi.me/api", {
+  const response = await fetch(API_BASE_URL!, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -38,24 +27,31 @@ export const fetchPosts = async (): Promise<Post[]> => {
   return data.posts.data;
 };
 
-export const useFetchPosts = (refreshKey: number) => {
+export const useFetchPosts = (refresh: boolean) => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedPosts = localStorage.getItem('posts');
+      try {
+        const storedPosts = localStorage.getItem('posts');
 
-      if (storedPosts && JSON.parse(storedPosts).length > 0) {
-        setPosts(JSON.parse(storedPosts));
-      } else {
-        const fetchedPosts = await fetchPosts();
-        setPosts(fetchedPosts);
-        localStorage.setItem('posts', JSON.stringify(fetchedPosts));
+        if (storedPosts && storedPosts !== "undefined" && JSON.parse(storedPosts).length > 0) {
+          setPosts(JSON.parse(storedPosts));
+        } else {
+          const fetchedPosts = await fetchPosts();
+          setPosts(fetchedPosts);
+          localStorage.setItem('posts', JSON.stringify(fetchedPosts));
+        }
+        setIsLoading(false);
+      } catch (error) {
+        setError(error as Error);
       }
     };
 
     fetchData();
-  }, [refreshKey]);
+  }, [refresh]);
 
-  return { posts };
+  return { posts, error, isLoading };
 };

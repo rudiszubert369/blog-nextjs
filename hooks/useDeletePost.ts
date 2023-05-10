@@ -1,27 +1,36 @@
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import { Post } from './useFetchPosts';
+import { Post } from '@/interfaces';
+import { API_BASE_URL } from '@/constants';
 
 const deletePost = async (id: string): Promise<string> => {
-  const response = await axios.post('https://graphqlzero.almansi.me/api', {
-    query: `
-      mutation DeletePost($id: ID!) {
-        deletePost(id: $id)
-      }
-    `,
-    variables: { id },
-  });
+  try {
+    const response = await axios.post(API_BASE_URL!, {
+      query: `
+        mutation DeletePost($id: ID!) {
+          deletePost(id: $id)
+        }
+      `,
+      variables: { id },
+    });
 
-  return response.data.data.deletePost;
+    return response.data.data.deletePost;
+  } catch (error) {
+    throw new Error('Failed to delete post');
+  }
 };
 
 const deletePostFromLocalStorage = (id: string) => {
-  const storedPosts = localStorage.getItem('posts');
+  try {
+    const storedPosts = localStorage.getItem('posts');
 
-  if (storedPosts) {
-    const posts = JSON.parse(storedPosts) as Post[];
-    const updatedPosts = posts.filter(post => post.id !== id);
-    localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    if (storedPosts) {
+      const posts = JSON.parse(storedPosts) as Post[];
+      const updatedPosts = posts.filter(post => post.id !== id);
+      localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    }
+  } catch (error) {
+    console.error('Failed to delete post from local storage', error);
   }
 };
 

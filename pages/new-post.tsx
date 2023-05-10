@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useAddPost } from '@/hooks/useAddPost';
+import Layout from '@/components/Layout';
 
 const CreatePostPage = () => {
   const [title, setTitle] = useState('');
@@ -28,36 +29,38 @@ const CreatePostPage = () => {
   };
 
   return (
-    <Box p={4}>
-      <Heading mb={6}>Create New Post</Heading>
-      <VStack spacing={4} align="center">
-        <Box width={['100%', '80%', '60%']}>
-          <FormControl>
-            <FormLabel>Title</FormLabel>
-            <Input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </FormControl>
-        </Box>
-        <Box width={['100%', '80%', '60%']}>
-          <FormControl>
-            <FormLabel>Content</FormLabel>
-            <Textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          </FormControl>
-        </Box>
-        <Box>
-          <Button mr={2} onClick={handleSave}>
-            Save
-          </Button>
-          <Button onClick={handleBack}>Back</Button>
-        </Box>
-      </VStack>
-    </Box>
+    <Layout>
+      <Box p={4}>
+        <Heading mb={6}>Create New Post</Heading>
+        <VStack spacing={4} align="center">
+          <Box width={['100%', '80%', '60%']}>
+            <FormControl>
+              <FormLabel>Title</FormLabel>
+              <Input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </FormControl>
+          </Box>
+          <Box width={['100%', '80%', '60%']}>
+            <FormControl>
+              <FormLabel>Content</FormLabel>
+              <Textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </FormControl>
+          </Box>
+          <Box>
+            <Button mr={2} onClick={handleSave}>
+              Save
+            </Button>
+            <Button onClick={handleBack}>Back</Button>
+          </Box>
+        </VStack>
+      </Box>
+    </Layout>
   );
 };
 
