@@ -73,7 +73,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, onUpdate }) => {
       }}
     >
       <Link href={`/post/${post.id}`}>
-        <Heading size="md">{post.title}</Heading>
+        <Heading size="md" as="h3">{post.title}</Heading>
         <Text>{post.body}</Text>
       </Link>
       <HStack w="100%" justifyContent="flex-end">

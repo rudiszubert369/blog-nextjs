@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { Post } from '@/interfaces';
 import { useRouter } from 'next/router';
 import { Flex, Button } from '@chakra-ui/react';
@@ -58,18 +59,23 @@ const PostPage = () => {
   };
 
   return (
-    <Layout>
-      <Flex flexDirection="column" justifyContent="center" alignItems="center" height="100vh">
-        {isLoading ? <Spinner /> : post ? <PostDetails post={post} /> : null}
-        {error && !isLoading && (
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle mr={2}>Error fetching post</AlertTitle>
-          </Alert>
-        )}
-        <Button mt={4} onClick={handleBackClick}>Home</Button>
-      </Flex>
-    </Layout>
+    <>
+       <Head>
+        <title>Post {post && post.id ? post.id : 'unknown' }</title>
+      </Head>
+      <Layout>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" height="100vh">
+          {isLoading ? <Spinner /> : post ? <PostDetails post={post} /> : null}
+          {error && !isLoading && (
+            <Alert status="error">
+              <AlertIcon />
+              <AlertTitle mr={2}>Error fetching post</AlertTitle>
+            </Alert>
+          )}
+          <Button mt={4} onClick={handleBackClick}>Home</Button>
+        </Flex>
+      </Layout>
+    </>
   );
 };
 

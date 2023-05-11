@@ -25,6 +25,7 @@ const PostDetails: React.FC<PostDetailsProps> = ({ post }) => {
       borderRadius="lg"
       borderColor={borderColor}
       boxShadow="md"
+      marginTop={0}
     >
       <Heading size="lg">{post.title}</Heading>
       <Text>{post.body}</Text>

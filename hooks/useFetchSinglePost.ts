@@ -19,13 +19,13 @@ export const useFetchSinglePost = (id: string) => {
       } else {
         try {
           const fetchedPost = await fetchPostFromAPI(id);
-          console.log(fetchedPost)
-          // if (fetchedPost) {
+
+          if (fetchedPost) {
             setPost(fetchedPost);
             localStorage.setItem('posts', JSON.stringify([...storedPosts, fetchedPost]));
-          // } else {
-          //   setError(true);
-          // }
+          } else {
+            setError(true);
+          }
           setError(false);
 
         } catch (err) {
