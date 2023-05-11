@@ -13,10 +13,11 @@ const Layout = ({ children }: Props) => {
       <Head>
         <title>My Blog App</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Flex bg="gray.100" p={4}>
         <Link href='/'>
-          <Heading size="md">
+          <Heading size="lg" as="h1">
             My Blog App
           </Heading>
         </Link>

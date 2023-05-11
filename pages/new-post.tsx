@@ -19,9 +19,13 @@ const CreatePostPage = () => {
   const router = useRouter();
   const addPostMutation = useAddPost();
 
-  const handleSave = () => {
-    addPostMutation.mutate({ title, body: content });
-    router.push('/');
+  const handleSave = async () => {
+    try {
+      await addPostMutation.mutateAsync({ title, body: content });
+      router.push('/');
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const handleBack = () => {
@@ -53,7 +57,7 @@ const CreatePostPage = () => {
             </FormControl>
           </Box>
           <Box>
-            <Button mr={2} onClick={handleSave}>
+            <Button mr={2} onClick={handleSave} aria-label="Save New Post">
               Save
             </Button>
             <Button onClick={handleBack}>Back</Button>

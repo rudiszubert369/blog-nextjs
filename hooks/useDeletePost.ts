@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import { Post } from '@/interfaces';
+import { deletePostFromLocalStorage } from '@/utils';
 import { API_BASE_URL } from '@/constants';
 
 const deletePost = async (id: string): Promise<string> => {
@@ -17,20 +17,6 @@ const deletePost = async (id: string): Promise<string> => {
     return response.data.data.deletePost;
   } catch (error) {
     throw new Error('Failed to delete post');
-  }
-};
-
-const deletePostFromLocalStorage = (id: string) => {
-  try {
-    const storedPosts = localStorage.getItem('posts');
-
-    if (storedPosts) {
-      const posts = JSON.parse(storedPosts) as Post[];
-      const updatedPosts = posts.filter(post => post.id !== id);
-      localStorage.setItem('posts', JSON.stringify(updatedPosts));
-    }
-  } catch (error) {
-    console.error('Failed to delete post from local storage', error);
   }
 };
 
