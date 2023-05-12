@@ -27,12 +27,14 @@ const PostDetails: React.FC<PostDetailsProps> = ({ post }) => {
       boxShadow="md"
       marginTop={0}
     >
-      <Heading size="lg">{post.title}</Heading>
-      <Text>{post.body}</Text>
+     {post.title && <Heading size="lg">{post.title}</Heading>}
+     {post.body && <Text>{post.body}</Text>}
       <HStack spacing={2}>
-        <Tag size="md" colorScheme="blue">
-          {post.user.name}
-        </Tag>
+        {post.user && (
+          <Tag size="md" colorScheme="blue">
+            {post.user.name}
+          </Tag>
+        )}
         <Tag size="md" colorScheme="green">
           ID: {post.id}
         </Tag>

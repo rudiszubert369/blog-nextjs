@@ -12,7 +12,6 @@ import {
   AlertIcon,
   AlertTitle
 } from '@chakra-ui/react';
-import { useFetchSinglePost } from '@/hooks/useFetchSinglePost';
 
 const PostPage = () => {
   const [post, setPost] = useState<Post | null>(null);
